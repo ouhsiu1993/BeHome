@@ -75,21 +75,21 @@ const PRODUCTS: Product[] = [
     name: '20/80 Air One',
     category: '被動式置換通風',
     description: '運用 20/80 物理對流原理，以最小能耗達成全室均溫，無需強風直吹即可享受自然舒適。',
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800'
+    image: '/product-air-one.webp'
   },
   {
     id: '2',
     name: 'Whole Climate',
     category: '全氣候新風處理',
     description: '24小時引進過濾後的活氧新風，精準控制溫濕度，打造四季如春的室內環境。',
-    image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800'
+    image: '/product-whole.webp'
   },
   {
     id: '3',
     name: 'Radiant Panel',
     category: '輻射冷暖板',
     description: '如陽光般溫潤的輻射式冷暖技術，無風感、無噪音，帶來極致靜謐的舒適體驗。',
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800'
+    image: '/product-radiant.webp'
   }
 ];
 
@@ -171,7 +171,7 @@ const Hero = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&q=80&w=2000" 
+          src="/hero-bg.webp" 
           alt="Nature background" 
           className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
@@ -230,7 +230,7 @@ const TechSection = () => {
           <div className="relative">
             <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
               <img 
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000" 
+                src="/tech-section.webp" 
                 alt="Technical detail" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -420,7 +420,7 @@ const AboutSection = () => {
           <div className="relative">
             <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
               <img 
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000" 
+                src="/about-team.webp" 
                 alt="Our team" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
