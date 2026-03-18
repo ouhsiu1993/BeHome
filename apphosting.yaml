@@ -1,0 +1,17 @@
+runConfig:
+  runtime: nodejs18
+  cpu: 1
+  memory: 512Mi
+  maxInstances: 10
+  minInstances: 0
+  concurrency: 100
+
+env:
+  - variable: NODE_ENV
+    value: production
+  - variable: GMAIL_USER
+    value: Greenhome.consult1@gmail.com
+  - variable: GMAIL_APP_PASSWORD
+    value: mftbdyjrjegnswjj
+  - variable: GMAIL_RECEIVER
+    value: Greenhome.consult1@gmail.com

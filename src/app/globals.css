@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer utilities {
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md;
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-brand-cream text-brand-ink antialiased;
+}
+
+::selection {
+  @apply bg-brand-olive text-white;
+}

@@ -1,10 +1,7 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
+'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Wind, 
   Droplets, 
@@ -24,7 +21,6 @@ import {
   Youtube
 } from 'lucide-react';
 
-// --- Types ---
 interface NavItem {
   label: string;
   href: string;
@@ -44,7 +40,6 @@ interface Product {
   image: string;
 }
 
-// --- Constants ---
 const NAV_ITEMS: NavItem[] = [
   { label: '核心技術', href: '#tech' },
   { label: '解決方案', href: '#solutions' },
@@ -93,8 +88,6 @@ const PRODUCTS: Product[] = [
   }
 ];
 
-// --- Components ---
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -110,7 +103,6 @@ const Navbar = () => {
           <span className="text-sm md:text-lg font-serif tracking-wide font-semibold truncate">BEHOME Whole Climate</span>
         </a>
 
-        {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-8 xl:gap-12">
           {NAV_ITEMS.map((item) => (
             <a 
@@ -126,13 +118,11 @@ const Navbar = () => {
           </a>
         </div>
 
-        {/* Mobile Toggle */}
         <button className="lg:hidden p-2" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X /> : <Menu />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div 
@@ -168,13 +158,11 @@ const Navbar = () => {
 const Hero = () => {
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
           src="/hero-bg.webp" 
           alt="Nature background" 
           className="w-full h-full object-cover"
-          referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-brand-cream/40 mix-blend-overlay" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-cream/20 to-brand-cream" />
@@ -189,7 +177,7 @@ const Hero = () => {
           <span className="inline-block text-xs uppercase tracking-[0.4em] mb-6 font-semibold text-brand-olive">
             The Future of Breathing
           </span>
-          <h1 className="text-4xl sm:text-6xl md:text-8xl font-serif mb-6 sm:mb-8 leading-[1.1] text-balance">
+          <h1 className="text-4xl sm:text-6xl md:text-8xl font-serif mb-6 sm:mb-8 leading-[1.1]">
             讓建築與自然 <br />
             <span className="italic">同步呼吸</span>
           </h1>
@@ -209,7 +197,6 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
       <motion.div 
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
@@ -233,10 +220,8 @@ const TechSection = () => {
                 src="/tech-section.webp" 
                 alt="Technical detail" 
                 className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
               />
             </div>
-            {/* Floating Stats */}
             <div className="absolute -bottom-12 -right-12 glass-card p-8 rounded-2xl shadow-xl hidden md:block">
               <div className="flex items-center gap-4 mb-4">
                 <div className="p-3 bg-brand-olive/10 rounded-full">
@@ -330,7 +315,6 @@ const SolutionSection = () => {
                   src={product.image} 
                   alt={product.name} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-brand-ink/0 transition-colors duration-500" />
               </div>
@@ -423,7 +407,6 @@ const AboutSection = () => {
                 src="/about-team.webp" 
                 alt="Our team" 
                 className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
               />
             </div>
             <div className="absolute -bottom-8 -left-8 glass-card p-6 rounded-2xl shadow-xl hidden md:block bg-white">
@@ -453,18 +436,31 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    const mailtoLink = `mailto:Greenhome.consult1@gmail.com?subject=${encodeURIComponent(`[網站諮詢] ${formData.subject} - ${formData.name}`)}&body=${encodeURIComponent(
-      `姓名：${formData.name}\n電話：${formData.phone}\n電子郵件：${formData.email}\n諮詢項目：${formData.subject}\n\n訊息內容：\n${formData.message || '（未填寫）'}`
-    )}`;
-    
-    window.location.href = mailtoLink;
-    
-    setTimeout(() => {
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitStatus('success');
+        setFormData({ name: '', phone: '', email: '', subject: '別墅全案規劃', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      console.error('表單提交錯誤:', error);
+    } finally {
       setIsSubmitting(false);
-      setSubmitStatus('success');
-      setFormData({ name: '', phone: '', email: '', subject: '別墅全案規劃', message: '' });
-    }, 1000);
+    }
   };
 
   return (
@@ -570,7 +566,10 @@ const ContactSection = () => {
                 {isSubmitting ? '處理中...' : '送出預約申請'}
               </button>
               {submitStatus === 'success' && (
-                <p className="text-center text-brand-olive text-sm">已開啟郵件程式，請完成寄送！</p>
+                <p className="text-center text-brand-olive text-sm">感謝您的諮詢，我們將盡快與您聯繫！</p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="text-center text-red-600 text-sm">發送失敗，請稍後再試或直接撥打電話聯繫我們</p>
               )}
             </form>
           </div>
@@ -659,9 +658,9 @@ const Footer = () => {
   );
 };
 
-export default function App() {
+export default function Home() {
   return (
-    <div className="min-h-screen selection:bg-brand-olive selection:text-white">
+    <div className="min-h-screen">
       <Navbar />
       <main>
         <Hero />
